@@ -1,0 +1,9 @@
+# General secrets and editor files
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.idea/
+.vscode/
+.DS_Store

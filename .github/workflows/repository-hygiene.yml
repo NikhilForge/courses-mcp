@@ -1,0 +1,24 @@
+name: Repository hygiene
+on:
+  pull_request:
+  push:
+    branches: [main, master]
+permissions:
+  contents: read
+jobs:
+  hygiene:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Basic repository hygiene checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s AGENTS.md
+          test -s CONTRIBUTING.md
+          test -s .github/PULL_REQUEST_TEMPLATE.md
+          if git ls-files | grep -E '(^|/)(\.env|id_rsa|id_ed25519)$'; then
+            echo 'Potentially sensitive filename tracked in Git.'
+            exit 1
+          fi
+          echo 'Repository hygiene checks passed. This is not a build, vulnerability scan, or security certification.'

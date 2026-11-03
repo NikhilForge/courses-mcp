@@ -1,0 +1,17 @@
+name: Engineering task
+description: Maintenance, documentation, or technical task
+title: "[TASK] "
+body:
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Desired outcome
+    validations:
+      required: true
+  - type: textarea
+    id: checklist
+    attributes:
+      label: Done when
+      placeholder: "- [ ] ..."
+    validations:
+      required: true

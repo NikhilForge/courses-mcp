@@ -1,0 +1,30 @@
+name: Semgrep Security
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+permissions:
+  contents: read
+
+jobs:
+  semgrep:
+    name: Static Code Analysis
+    runs-on: ubuntu-latest
+
+    container:
+      image: semgrep/semgrep:latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Scan for vulnerabilities
+        run: |
+          semgrep scan \
+            --config p/security-audit \
+            --config p/secrets \
+            --error \
+            --metrics=off .

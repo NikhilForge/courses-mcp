@@ -1,0 +1,27 @@
+name: Feature request
+description: Request a new feature
+title: "[FEATURE] "
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / goal
+      description: What outcome is needed and why?
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope and implementation notes
+      description: Include constraints, affected areas, and out-of-scope work.
+  - type: textarea
+    id: criteria
+    attributes:
+      label: Acceptance criteria
+      placeholder: "- [ ] The user can ..."
+    validations:
+      required: true
+  - type: textarea
+    id: testing
+    attributes:
+      label: Test scenarios
