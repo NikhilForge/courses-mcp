@@ -9,6 +9,7 @@ import { LabTermPreferences } from './lab-terms.js';
 import { buildLabSchedule, isMonday } from './labs.js';
 import { readAssignment, enrichLabHomework } from './assignments.js';
 import { readAnnouncements } from './forums.js';
+import { collectFolder, readFolderFile } from './folders.js';
 import { LoginError, classifyLoginError, loginOutcome } from './login.js';
 
 const MOODLE = 'https://courses.finki.ukim.mk';
@@ -165,6 +166,16 @@ export class Moodle {
   async getAnnouncements(courseId, forumId) {
     const course = await this.getCourse(courseId);
     return readAnnouncements({ request: this.page.context().request, course, forumId });
+  }
+
+  async getFolder(courseId, folderId) {
+    const course = await this.getCourse(courseId);
+    return (await collectFolder({ request: this.page.context().request, course, folderId })).result;
+  }
+
+  async readFolderFile(courseId, folderId, fileId) {
+    const course = await this.getCourse(courseId);
+    return readFolderFile({ request: this.page.context().request, course, folderId, fileId });
   }
 
   async getChoiceSelection(courseId, choiceId) {
