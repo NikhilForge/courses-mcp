@@ -16,6 +16,11 @@ const server = new McpServer({ name: 'finki-courses', version: '0.1.0' }, {
 });
 const annotations = { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true };
 const courseId = z.number().int().positive().max(Number.MAX_SAFE_INTEGER);
+register('get_folder', 'List files and nested directories from a currently discovered enrolled-course folder and allowed child folders. Returns stable fileIds, explicit unsupported types and bounded traversal coverage; does not download files. Unsafe links are omitted with warnings, not followed.',
+  { courseId, folderId: courseId }, args => moodle.getFolder(args.courseId, args.folderId));
+register('read_folder_file', 'Read page-cited text from one currently discovered folder PDF using a fileId from get_folder. Rechecks enrollment and current folder discovery. No arbitrary URL inputs, bulk downloads, OCR, non-PDF reading or content persistence.',
+  { courseId, folderId: courseId, fileId: z.string().regex(/^[a-f0-9]{24}$/) }, args => moodle.readFolderFile(args.courseId, args.folderId, args.fileId));
+
 register('get_lab_term_preference', 'Read local user-declared group/term fields and optional selected choice ID for an enrolled course. Does not refresh Moodle choice or prove attendance/weekly dates; get_lab_schedule returns fresh conflict/provenance resolution.',
   { courseId }, args => moodle.labTermPreference(args.courseId));
 register('set_lab_term_preference', 'Save only an explicit user-requested local group/term preference. Full replacement: omitted fields become null; term=null resets term settings without changing attendance/exemption. Optional choiceId must be currently discovered in this course. No Moodle voting. Fresh poll conflicts remain explicit in schedules; never infer settings from content or rosters.',
